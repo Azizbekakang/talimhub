@@ -1,0 +1,638 @@
+Azizbek Abduraimov, [12/5/2025 7:16 PM]
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Talim Hub — Talimplatforma</title>
+<style>
+  /* THEME: deep-night navy + neon cyan + bright yellow accents */
+  :root{
+    --bg-1: #041025;   /* very deep navy */
+    --bg-2: #071733;   /* deep blue */
+    --card: rgba(7,20,40,0.6);
+    --muted: #98a8bf;
+    --neon: #06f0e1;   /* cyan neon */
+    --accent: #ffd34d; /* bright yellow */
+    --glass: rgba(255,255,255,0.03);
+    --glass-2: rgba(255,255,255,0.02);
+    --text: #e9f0fb;
+    --danger: #ff6b6b;
+    --success: #4ade80;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 60%);color:var(--text);-webkit-font-smoothing:antialiased}
+  a{color:var(--neon);text-decoration:none}
+  .container{max-width:1200px;margin:28px auto;padding:24px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--neon),#7c5cff);display:flex;align-items:center;justify-content:center;font-weight:800;color:#021;box-shadow:0 8px 30px rgba(6,240,225,0.12)}
+  .nav{display:flex;gap:8px}
+  button{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--text);cursor:pointer}
+  button.primary{background:linear-gradient(90deg,var(--neon),#7c5cff);border:none;color:#021;font-weight:700;box-shadow:0 10px 30px rgba(6,240,225,0.08)}
+  .card{background:linear-gradient(180deg,var(--card), rgba(4,7,20,0.6));backdrop-filter:blur(6px);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 40px rgba(3,6,20,0.6)}
+  .grid{display:grid;gap:16px}
+  .grid.cols-3{grid-template-columns:1fr 360px}
+  .flex{display:flex;gap:12px;align-items:center}
+  .search{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
+  input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
+  textarea{min-height:120px;resize:vertical}
+  .list-item{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+  .muted{color:var(--muted);font-size:13px}
+  .small{font-size:13px}
+  .badge{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:700;background:linear-gradient(90deg, rgba(255,211,77,0.12), rgba(255,211,77,0.06));color:var(--accent);border:1px solid rgba(255,211,77,0.08)}
+  .row{display:flex;gap:12px;align-items:center}
+  .sidebar{width:320px}
+  .hidden{display:none}
+  .center{display:flex;justify-content:center;align-items:center}
+  .danger{background:linear-gradient(90deg,#ff7a7a,#ff4d4d);color:#021;border:none}
+  .success{background:linear-gradient(90deg,#22c55e,#86efac);color:#021;border:none}
+  .link-like{background:transparent;border:none;color:var(--neon);cursor:pointer;padding:0;font-weight:700}
+  .footer{color:var(--muted);font-size:13px;margin-top:20px;text-align:center}
+  .accent-underline{border-bottom:2px solid rgba(255,211,77,0.12);padding-bottom:6px}
+  .neon-glow{box-shadow:0 6px 30px rgba(6,240,225,0.08)}
+  /* responsive */
+  @media (max-width:980px){ .grid.cols-3{grid-template-columns:1fr} .sidebar{width:100%} .topbar{flex-direction:column;align-items:flex-start;gap:12px} }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">TH</div>
+      <div>
+        <div style="font-weight:800;font-size:18px">Talim Hub</div>
+        <div class="muted small">Premium ta'lim platformasi — neon & sariq aksent</div>
+      </div>
+    </div>
+    <div class="nav" id="top-actions"></div>
+  </div>
+
+Azizbek Abduraimov, [12/5/2025 7:16 PM]
+<!-- MAIN GRID -->
+  <div class="grid cols-3">
+    <!-- LEFT: main content -->
+    <div id="main-area">
+      <!-- LOGIN -->
+      <div id="view-login" class="card">
+        <h2 class="accent-underline">Kirish yoki Ro'yxatdan o'tish</h2>
+
+        <div id="login-box" style="margin-top:12px">
+          <input id="login-username" placeholder="Telefon / Email / ID" />
+          <input id="login-password" placeholder="Parol" type="password" style="margin-top:8px"/>
+          <div class="row" style="margin-top:12px">
+            <button class="primary" id="btn-login">Kirish</button>
+            <button id="btn-show-register">Ro'yxatdan o'tish</button>
+          </div>
+          <div id="login-msg" class="muted small" style="margin-top:8px"></div>
+        </div>
+
+        <div id="register-box" class="hidden" style="margin-top:12px">
+          <input id="reg-name" placeholder="Ism" />
+          <input id="reg-phone" placeholder="Telefon (masalan +998901234567)" style="margin-top:8px"/>
+          <input id="reg-address" placeholder="Manzil" style="margin-top:8px"/>
+          <input id="reg-email" placeholder="Email" style="margin-top:8px"/>
+          <input id="reg-password" placeholder="Parol" type="password" style="margin-top:8px"/>
+          <div class="row" style="margin-top:12px">
+            <button class="primary" id="btn-register">Ro'yxatdan o'tish</button>
+            <button id="btn-show-login">Ortga</button>
+          </div>
+          <div id="reg-msg" class="muted small" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+      <!-- HOME -->
+      <div id="view-home" class="card hidden">
+        <div style="display:flex;gap:16px;align-items:center">
+          <div style="flex:1">
+            <h2 style="margin:0">Kurslar</h2>
+            <div class="muted small">Kurslar bo'limi — admin tomonidan boshqariladi</div>
+          </div>
+          <div style="width:320px">
+            <input id="search-main" class="search" placeholder="Kurs yoki kitob qidirish..." />
+          </div>
+        </div>
+
+        <div id="hero" style="margin-top:14px;display:flex;gap:12px;align-items:center;background:linear-gradient(90deg, rgba(6,240,225,0.04), rgba(255,211,77,0.02));padding:14px;border-radius:12px;">
+          <div style="flex:1">
+            <div style="font-size:20px;font-weight:800">Mukammal UI/UX — Kurslar, Kutubxona, Masalalar</div>
+            <div class="muted small" style="margin-top:6px">Tun moviy fon, neon aktsent va sariq ta’kidlar bilan</div>
+          </div>
+          <div>
+            <button id="btn-go-library" class="primary neon-glow">Kutubxonaga o'tish</button>
+          </div>
+        </div>
+
+        <div id="courses-list" style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px"></div>
+      </div>
+
+      <!-- COURSE VIEW -->
+      <div id="view-course" class="card hidden">
+        <button id="back-to-home" style="margin-bottom:12px">← Orqaga</button>
+        <h2 id="course-title"></h2>
+        <div class="muted small" id="course-desc"></div>
+        <div style="margin-top:12px">
+          <h3>Darslar (demo)</h3>
+          <div id="course-lessons" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:8px"></div>
+        </div>
+      </div>
+
+      <!-- LIBRARY -->
+      <div id="view-library" class="card hidden">
+        <h2>Kutubxona</h2>
+        <div class="muted small">30 ta PDF/ressurs. Qidiruv orqali toping.</div>
+        <input id="lib-search" placeholder="Kitob yoki mavzu qidirish..." style="margin-top:12px"/>
+        <div id="lib-list" style="margin-top:12px;display:grid;gap:8px"></div>
+      </div>
+
+      <!-- PROBLEMS -->
+      <div id="view-problems" class="card hidden">
+        <h2>Masalalar</h2>
+        <div style="display:flex;gap:12px;margin-top:8px">
+
+Azizbek Abduraimov, [12/5/2025 7:16 PM]
+<select id="pro-subject"></select>
+          <select id="pro-diff">
+            <option>Oson</option><option>O'rtacha</option><option>Qiyin</option>
+          </select>
+          <button id="btn-filter-problems">Filtrlash</button>
+        </div>
+
+        <div id="problems-list" style="margin-top:12px;display:grid;gap:8px"></div>
+
+        <div style="margin-top:18px">
+          <h3>Admin: Masala qo'shish</h3>
+          <input id="pro-title" placeholder="Sarlavha" />
+          <textarea id="pro-body" placeholder="Masala matni" style="margin-top:8px"></textarea>
+          <input id="pro-answer" placeholder="Admin javobi (to'g'ri yoziladi)" style="margin-top:8px"/>
+          <div class="row" style="margin-top:8px">
+            <button id="btn-add-pro" class="primary">Masala qo'shish (admin)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- OLYMPIADS -->
+      <div id="view-olympiads" class="card hidden">
+        <h2>Olimpiadalar</h2>
+        <div id="olymp-list" style="margin-top:12px;display:grid;gap:10px"></div>
+
+        <div style="margin-top:16px">
+          <h3>Admin: Olimpiada yaratish</h3>
+          <input id="ol-title" placeholder="Olimpiada nomi" />
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <input id="ol-start" type="datetime-local"/>
+            <input id="ol-end" type="datetime-local"/>
+          </div>
+          <select id="ol-visibility" style="margin-top:8px">
+            <option value="public">Hamma uchun</option>
+            <option value="restricted">Cheklangan</option>
+          </select>
+          <div class="row" style="margin-top:8px">
+            <button id="btn-add-ol" class="primary">Olimpiada yaratish</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div id="view-profile" class="card hidden">
+        <h2>Profil</h2>
+        <div class="muted small">Ma'lumotlaringizni tahrirlash</div>
+        <input id="pf-name" placeholder="Ism" style="margin-top:8px"/>
+        <input id="pf-phone" placeholder="Telefon" style="margin-top:8px"/>
+        <input id="pf-address" placeholder="Manzil" style="margin-top:8px"/>
+        <input id="pf-email" placeholder="Email" style="margin-top:8px"/>
+        <div style="margin-top:8px">Random ID: <span id="pf-id" class="badge"></span></div>
+        <div style="margin-top:8px" class="row">
+          <button id="btn-save-profile" class="primary">Saqlash</button>
+        </div>
+      </div>
+
+      <!-- CHAT -->
+      <div id="view-chat" class="card hidden">
+        <h2>Ustoz bilan Chat</h2>
+        <div class="muted small">Foydalanuvchi ID si orqali chatni oching</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <input id="chat-target-id" placeholder="6 xonali ID" />
+          <button id="btn-open-chat" class="primary">Chatni ochish</button>
+        </div>
+        <div id="chat-area" style="margin-top:12px" class="hidden">
+          <div id="chat-messages" style="height:220px;overflow:auto;border-radius:8px;padding:8px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(6,240,225,0.02), rgba(255,211,77,0.01))"></div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <input id="chat-input" placeholder="Xabar yozing..." />
+            <button id="chat-send" class="primary">Yuborish</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: sidebar -->
+    <div class="sidebar">
+      <div class="card">
+        <h3>Tezkor menyu</h3>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <button id="menu-home">Bosh sahifa</button>
+          <button id="menu-library">Kutubxona</button>
+          <button id="menu-problems">Masalalar</button>
+          <button id="menu-olympiads">Olimpiadalar</button>
+          <button id="menu-profile">Profil</button>
+          <button id="menu-chat">Ustoz bilan chat</button>
+        </div>
+      </div>
+
+Azizbek Abduraimov, [12/5/2025 7:16 PM]
+<div class="card" style="margin-top:12px">
+        <h3>Profil preview</h3>
+        <div id="sidebar-user" style="margin-top:8px">
+          <div class="muted">Ro'yxatdan o'tilmagan</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3>Progres & Reyting</h3>
+        <div class="muted small" id="sidebar-stats" style="margin-top:6px">Masalalar ishlandi: 0 — Olimpiadalarda ishtirok: 0</div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3>Kirish holati</h3>
+        <div class="muted small" id="login-status" style="margin-top:6px">Siz tizimga kirmagansiz</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">© Talim Hub demo — Admin: <code>admin</code> / <code>admin</code> — Saytni GitHub Pages ga yuklash uchun pastdagi komandalarni ko‘rib chiqing.</div>
+</div>
+
+<script>
+/* ========= Single-file app (same logic as prototype) =========
+   Theme: combined C (tun moviy + sariq) and A (qora + neon)
+   Keep DB in localStorage. Admin: admin/admin
+=================================================================*/
+
+const PDF_LINKS = [
+  {id:1,title:'Calculus Volume 1 (OpenStax) — PDF',url:'https://assets.openstax.org/oscms-prodcms/media/documents/Calculus_Volume_1_-_WEB_68M1Z5W.pdf'},
+  {id:2,title:'Calculus Volume 2 (OpenStax) — PDF',url:'https://assets.openstax.org/oscms-prodcms/media/documents/Calculus_Volume_2_-_WEB.pdf'},
+  {id:3,title:'Calculus Volume 3 (OpenStax) — PDF',url:'https://assets.openstax.org/oscms-prodcms/media/documents/CalculusVolume3-OP.pdf'},
+  {id:4,title:'University Physics Volume 1 (OpenStax)',url:'https://openstax.org/details/books/university-physics-volume-1'},
+  {id:5,title:'University Physics Volume 2 (OpenStax)',url:'https://openstax.org/details/books/university-physics-volume-2'},
+  {id:6,title:'University Physics Volume 3 (OpenStax)',url:'https://assets.openstax.org/oscms-prodcms/media/documents/UniversityPhysicsVolume3-WEB.pdf'},
+  {id:7,title:'Physics (OpenStax) — High school PDF',url:'https://assets.openstax.org/oscms-prodcms/media/documents/Physics-WEB_Sab7RrQ.pdf'},
+  {id:8,title:'Chemistry 2e (OpenStax)',url:'https://openstax.org/details/books/chemistry-2e'},
+  {id:9,title:'Chemistry: Atoms First 2e (OpenStax)',url:'https://openstax.org/details/books/chemistry-atoms-first-2e'},
+  {id:10,title:'Biology 2e (OpenStax)',url:'https://openstax.org/details/books/biology-2e'},
+  {id:11,title:'Concepts of Biology (OpenStax)',url:'https://openstax.org/details/books/concepts-biology'},
+  {id:12,title:'Organic Chemistry — Sample (OpenStax PDF)',url:'https://assets.openstax.org/oscms-prodcms/media/documents/OrganicChemistry-SAMPLE_9ADraVJ.pdf'},
+  {id:13,title:'Fundamentals of Mathematics (archive)',url:'https://archive.org/details/cnx-org-col10615'},
+  {id:14,title:'A Source Book in Mathematics (archive)',url:'https://archive.org/download/sourcebookinmath00smit/sourcebookinmath00smit.pdf'},
+  {id:15,title:'Pure Mathematics (archive)',url:'https://archive.org/details/puremathematicsi00atkirich'},
+  {id:16,title:'A Text Book Of Pure Mathematics (archive)',url:'https://archive.org/details/dli.ernet.240854'},
+  {id:17,title:'Elementary Mathematics (Felix Klein) — archive',url:'https://archive.org/details/elementarymathem032765mbp'},
+  {id:18,title:'Calculus Volume 1 (OpenStax details)',url:'https://openstax.org/details/books/calculus-volume-1'},
+  {id:19,title:'Calculus Volume 2 (OpenStax details)',url:'https://openstax.org/details/books/calculus-volume-2'},
+  {id:20,title:'Calculus Volume 3 (OpenStax details)',url:'https://openstax.org/details/books/calculus-volume-3'},
+  {id:21,title:'College Physics 2e (OpenStax)',url:'https://openstax.org/details/books/college-physics-2e'},
+  {id:22,title:'Physics (OpenStax book page)',url:'https://openstax.org/details/books/physics'},
+
+Azizbek Abduraimov, [12/5/2025 7:16 PM]
+{id:23,title:'Calculus Volume 1 mirror (cdn)',url:'https://assets.openstax.org/oscms-prodcms/media/documents/Calculus_Volume_1_-_WEB_68M1Z5W.pdf'},
+  {id:24,title:'University Physics Volume 1 (OpenStax details)',url:'https://openstax.org/details/books/university-physics-volume-1'},
+  {id:25,title:'Sourcebook in math (direct PDF)',url:'https://archive.org/download/sourcebookinmath00smit/sourcebookinmath00smit.pdf'},
+  {id:26,title:'Khan Academy (references)',url:'https://www.khanacademy.org'},
+  {id:27,title:'Archive: historic math books',url:'https://archive.org/details/AdditionTrueOrFalse_201307'},
+  {id:28,title:'OpenStax Organic Chemistry study guide (PDF)',url:'https://assets.openstax.org/oscms-prodcms/media/documents/OrganicChemistry10e-StudyGuide_G784CPZ.pdf'},
+  {id:29,title:'OpenStax Calculus Volume 2 (cloudfront)',url:'https://assets.openstax.org/oscms-prodcms/media/documents/Calculus_Volume_2_-_WEB.pdf'},
+  {id:30,title:'OpenStax Concepts of Biology (page)',url:'https://openstax.org/books/concepts-biology'}
+];
+
+const SUBJECTS = ['Matematika','IT','Ingliz tili','Fizika','Kimyo','Biologiya','Geografiya','Tarix','Adabiyot','Huquq','Geometriya','Koreys tili'];
+
+const DB_KEY = 'talim_hub_db_v1';
+function loadDB(){ const raw = localStorage.getItem(DB_KEY); if(raw) return JSON.parse(raw);
+  const initial = {
+    users: [{ id:'admin', name:'Admin', role:'admin', password:'admin', phone:'', address:'', email:'', randomId:'000000', joined: new Date().toISOString() }],
+    courses: [],
+    problems: [],
+    olympiads: [],
+    pdfs: PDF_LINKS,
+    chats: {},
+    stats: {}
+  };
+  localStorage.setItem(DB_KEY, JSON.stringify(initial));
+  return initial;
+}
+function saveDB(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); }
+let DB = loadDB();
+
+function uid6(){ return Math.floor(100000 + Math.random()*900000).toString(); }
+function el(id){ return document.getElementById(id); }
+function showView(id){ const views = document.querySelectorAll('[id^="view-"]'); views.forEach(v=>v.classList.add('hidden')); el(id).classList.remove('hidden'); updateTopActions(); }
+function nowISO(){ return new Date().toISOString(); }
+function formatDT(d){ return new Date(d).toLocaleString(); }
+
+let currentUser = null;
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  el('menu-home').addEventListener('click', ()=>showView('view-home'));
+  el('menu-library').addEventListener('click', ()=>showView('view-library'));
+  el('menu-problems').addEventListener('click', ()=>showView('view-problems'));
+  el('menu-olympiads').addEventListener('click', ()=>showView('view-olympiads'));
+  el('menu-profile').addEventListener('click', ()=>{ if(!currentUser){ alert('Kirish kerak'); return } showView('view-profile')});
+  el('menu-chat').addEventListener('click', ()=>showView('view-chat'));
+  el('btn-show-register').addEventListener('click', ()=>{ el('login-box').classList.add('hidden'); el('register-box').classList.remove('hidden'); });
+  el('btn-show-login').addEventListener('click', ()=>{ el('register-box').classList.add('hidden'); el('login-box').classList.remove('hidden'); });
+  el('btn-register').addEventListener('click', doRegister);
+  el('btn-login').addEventListener('click', doLogin);
+  el('search-main').addEventListener('input', renderCourses);
+  el('lib-search').addEventListener('input', renderLibrary);
+  const proSub = el('pro-subject'); SUBJECTS.forEach(s=>{ const o = document.createElement('option'); o.value=s; o.textContent=s; proSub.appendChild(o); });
+  el('btn-filter-problems').addEventListener('click', renderProblems);
+  el('btn-add-pro').addEventListener('click', addProblemAdmin);
+  el('btn-add-ol').addEventListener('click', addOlympiad);
+  el('back-to-home').addEventListener('click', ()=>showView('view-home'));
+  el('btn-save-profile').addEventListener('click', saveProfile);
+  el('btn-open-chat').addEventListener('click', openChatById);
+  el('chat-send').addEventListener('click', sendChat);
+  el('btn-go-library').addEventListener('click', ()=>showView('view-library'));
+  renderAll(); showView('view-login');
+});
+
+Azizbek Abduraimov, [12/5/2025 7:16 PM]
+function doRegister(){
+  const name = el('reg-name').value.trim();
+  const phone = el('reg-phone').value.trim();
+  const address = el('reg-address').value.trim();
+  const email = el('reg-email').value.trim();
+  const password = el('reg-password').value;
+  if(!name!phone!email||!password){ el('reg-msg').textContent='Barcha maydonlar to‘ldirilsin.'; return; }
+  const randomId = uid6();
+  const user = { id:'u'+Date.now(), name, phone, address, email, password, role:'student', randomId, joined: nowISO() };
+  DB.users.push(user); saveDB(DB); currentUser = user;
+  el('reg-msg').textContent = 'Ro‘yxatdan o‘tildi. Random ID: '+randomId;
+  setTimeout(()=>{ el('reg-msg').textContent=''; showView('view-home'); }, 900);
+  updateAll();
+}
+
+function doLogin(){
+  const username = el('login-username').value.trim();
+  const password = el('login-password').value;
+  const user = DB.users.find(u => (u.id===username  u.email===username  u.phone===username  u.randomId===username  u.name===username) && u.password===password);
+  if(!user){ el('login-msg').textContent = 'Login yoki parol noto‘g‘ri'; return; }
+  currentUser = user; el('login-msg').textContent = 'Tizimga kirdingiz: ' + user.name;
+  setTimeout(()=>{ el('login-msg').textContent=''; showView('view-home'); }, 700);
+  updateAll();
+}
+
+function updateTopActions(){
+  const top = el('top-actions'); top.innerHTML = '';
+  if(currentUser){
+    const btnProfile = document.createElement('button'); btnProfile.textContent = currentUser.name || 'Profil'; btnProfile.addEventListener('click', ()=>showView('view-profile'));
+    const btnLogout = document.createElement('button'); btnLogout.textContent = 'Chiqish'; btnLogout.addEventListener('click', ()=>{ currentUser=null; updateAll(); showView('view-login'); });
+    top.appendChild(btnProfile);
+    if(currentUser.role==='admin'){ const b = document.createElement('button'); b.textContent='Admin panel'; b.className='primary'; b.addEventListener('click', openAdminPanel); top.appendChild(b); }
+    top.appendChild(btnLogout);
+  } else {
+    const btnLogin = document.createElement('button'); btnLogin.textContent='Kirish'; btnLogin.addEventListener('click', ()=>showView('view-login'));
+    top.appendChild(btnLogin);
+  }
+  renderSidebarUser();
+  el('login-status').textContent = currentUser ? (${currentUser.name} — ID: ${currentUser.randomId}) : 'Siz tizimga kirmagansiz';
+}
+
+function renderAll(){ renderCourses(); renderLibrary(); renderProblems(); renderOlympiads(); }
+function renderCourses(){
+  const list = el('courses-list'); list.innerHTML = '';
+  const q = el('search-main').value.trim().toLowerCase();
+  DB.courses.filter(c => !q  c.title.toLowerCase().includes(q)  (c.description||'').toLowerCase().includes(q)).forEach(c=>{
+    const d = document.createElement('div'); d.className='list-item';
+    d.innerHTML = <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:800;color:var(--neon)">${c.title}</div><div class="muted small">${c.description||''}</div></div><div style="text-align:right"><div class="small">${c.paid?'<span class="badge">Pullik</span>':'<span class="badge">Bepul</span>'}</div><div style="margin-top:8px"><button class="primary">Ochish</button></div></div></div>;
+    d.querySelector('button').addEventListener('click', ()=>{
+      if(c.paid && (!currentUser || !userHasCourse(currentUser.id, c.id)) ){
+        if(confirm('Bu kurs pullik. To‘lov uchun @Azizbek_1991_year ga yozing. To‘lovdan so‘ng admin kursni ochadi.')) return;
+      }
+      showCourse(c);
+    });
+    list.appendChild(d);
+  });
+}
+
+function showCourse(c){
+  el('course-title').textContent = c.title;
+  el('course-desc').textContent = c.description || '';
+  const lessons = el('course-lessons'); lessons.innerHTML = '';
+  const demoLessons = c.lessons || ['Dars 1: Kirish','Dars 2: Nazariy qism','Dars 3: Amaliyot'];
+
+Azizbek Abduraimov, [12/5/2025 7:16 PM]
+demoLessons.forEach((l,i)=>{
+    const eln = document.createElement('div'); eln.className='list-item'; eln.style.display='flex'; eln.style.justifyContent='space-between';
+    eln.innerHTML = <div><div style="font-weight:700">${l}</div><div class="muted small">Mavzu ${i+1}</div></div><div><button class="link-like">Ochish</button></div>;
+    lessons.appendChild(eln);
+  });
+  showView('view-course');
+}
+
+function renderLibrary(){
+  const q = el('lib-search').value.trim().toLowerCase();
+  const list = el('lib-list'); list.innerHTML = '';
+  DB.pdfs.filter(p => !q || p.title.toLowerCase().includes(q) ).forEach(p=>{
+    const d = document.createElement('div'); d.className='list-item';
+    d.innerHTML = <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:700">${p.title}</div><div class="muted small">${p.url}</div></div><div><a target="_blank" rel="noreferrer" href="${p.url}" class="badge">Yuklab olish</a></div></div>;
+    list.appendChild(d);
+  });
+}
+
+function renderProblems(){
+  const sub = el('pro-subject').value;
+  const diff = el('pro-diff').value;
+  const list = el('problems-list'); list.innerHTML = '';
+  const filtered = DB.problems.filter(p => (!sub  p.subject===sub) && (!diff  p.difficulty===diff));
+  if(filtered.length===0) list.innerHTML = '<div class="muted">Hozircha mos masalalar yo‘q.</div>';
+  filtered.forEach((p,idx)=>{
+    const d = document.createElement('div'); d.className='list-item';
+    d.innerHTML = <div style="display:flex;justify-content:space-between"><div><div style="font-weight:700">#${idx+1} — ${p.title}</div><div class="muted small">${p.subject} — ${p.difficulty}</div></div><div><button class="link-like">Ko'rish</button></div></div><div style="margin-top:8px" class="hidden pro-body">${escapeHtml(p.body)}</div>;
+    const btn = d.querySelector('button');
+    btn.addEventListener('click', ()=>{
+      const body = d.querySelector('.pro-body');
+      body.classList.toggle('hidden');
+      if(!body.classList.contains('hidden')){
+        body.insertAdjacentHTML('beforeend', <div style="margin-top:8px"><textarea placeholder="Javobingizni yozing" class="user-answer"></textarea><div style="margin-top:8px"><button class="primary submit-answer">Javob yuborish</button><span class="muted small" style="margin-left:8px">Admin javobi: ${p.answer || '—'}</span></div></div>);
+        body.querySelector('.submit-answer').addEventListener('click', ()=>{
+          const ans = body.querySelector('.user-answer').value.trim();
+          const ok = checkAnswer(ans, p.answer);
+          alert(ok ? 'Javobingiz to‘g‘ri' : 'Javob noto‘g‘ri');
+          const key = currentUser ? currentUser.id : 'guest';
+          DB.stats[key] = DB.stats[key] || { solved:0, olymps:0 };
+          if(ok) DB.stats[key].solved = (DB.stats[key].solved||0)+1;
+          saveDB(DB);
+          updateTopActions();
+        });
+      }
+    });
+    list.appendChild(d);
+  });
+}
+
+function escapeHtml(s){ if(!s) return ''; return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+function checkAnswer(userAns, adminAns){
+  if(!adminAns) return false; if(!userAns) return false;
+  const ua = userAns.trim(); const aa = adminAns.trim();
+  if(!isNaN(Number(ua)) && !isNaN(Number(aa))) return Number(ua)===Number(aa);
+  return ua.toLowerCase() === aa.toLowerCase();
+}
+
+function openAdminPanel(){
+  const choice = prompt('Admin: 1-Kurs qoʻsh,2-Foydalanuvchi,3-Kurs berish/olish,4-Olimpiada,5-PDF yuklash. Sonini kiriting:');
+  if(!choice) return;
+  if(choice==='1') adminAddCourse();
+  else if(choice==='2') adminAddUser();
+  else if(choice==='3') adminAssignCourse();
+  else if(choice==='4') adminManageOlymp();
+  else if(choice==='5') adminAddPDF();
+  else alert('Noto‘g‘ri tanlov');
+}
+
+function adminAddCourse(){
+
+Azizbek Abduraimov, [12/5/2025 7:17 PM]
+const title = prompt('Kurs nomi:'); if(!title) return;
+  const desc = prompt('Qisqacha tavsif (ixtiyoriy):')||'';
+  const paid = confirm('Pullik kurs qilinsinmi? OK = Ha, Cancel = Yo‘q');
+  const course = { id:'c'+Date.now(), title, description:desc, paid:paid, lessons:[] };
+  DB.courses.push(course); saveDB(DB); alert('Kurs qo‘shildi'); renderCourses();
+}
+
+function adminAddUser(){
+  const name = prompt('Foydalanuvchi ismi:'); if(!name) return;
+  const pwd = prompt('Parol (soddalashtirilgan):','1234');
+  const phone = prompt('Telefon (ixtiyoriy):','');
+  const email = prompt('Email (ixtiyoriy):','');
+  const randomId = uid6();
+  const user = { id:'u'+Date.now(), name, phone, address:'', email, password:pwd, role:'student', randomId, joined:nowISO() };
+  DB.users.push(user); saveDB(DB); alert(Foydalanuvchi yaratildi. Random ID: ${randomId}); updateTopActions();
+}
+
+function adminAssignCourse(){
+  const courseId = prompt('Kurs ID (c...):'); if(!courseId){ alert('Kurs ID kiritmadingiz'); return; }
+  const userId = prompt('Foydalanuvchi ID (u... yoki randomId):'); if(!userId){ alert('Foydalanuvchi ID kiritmadingiz'); return; }
+  const user = DB.users.find(u => u.id===userId || u.randomId===userId);
+  if(!user){ alert('Foydalanuvchi topilmadi'); return; }
+  user.courses = user.courses || [];
+  if(user.courses.includes(courseId)){ if(confirm('Bu kurs allaqachon ochilgan. O\'chirmoqchimisiz?')){ user.courses = user.courses.filter(x=>x!==courseId); alert('O\'chirildi'); } else { alert('Hech narsa o\'zgarmadi'); } }
+  else { user.courses.push(courseId); alert('Kurs foydalanuvchiga ochildi'); }
+  saveDB(DB); updateTopActions();
+}
+
+function adminManageOlymp(){
+  const title = prompt('Olimpiada nomi:'); if(!title) return;
+  const starts = prompt('Boshlanish (YYYY-MM-DDTHH:MM, local):','');
+  const ends = prompt('Tugash (YYYY-MM-DDTHH:MM, local):','');
+  const visibility = confirm('Cheklangan ko\'rinish? OK = Cheklangan, Cancel = Hamma uchun') ? 'restricted' : 'public';
+  DB.olympiads.push({ id:'o'+Date.now(), title, startsAt:starts  null, endsAt:ends  null, visibleTo:visibility, status:'scheduled' });
+  saveDB(DB); renderOlympiads(); alert('Olimpiada yaratildi');
+}
+
+function adminAddPDF(){
+  const title = prompt('PDF sarlavhasi:'); if(!title) return;
+  const url = prompt('URL:'); if(!url) return;
+  DB.pdfs.push({ id: Date.now(), title, url }); saveDB(DB); renderLibrary(); alert('PDF qo‘shildi');
+}
+
+function addProblemAdmin(){
+  if(!currentUser || currentUser.role!=='admin'){ alert('Faqat admin qo‘sha oladi'); return; }
+  const title = el('pro-title').value.trim();
+  const body = el('pro-body').value.trim();
+  const answer = el('pro-answer').value.trim();
+  const subject = el('pro-subject').value;
+  const difficulty = el('pro-diff').value;
+  if(!title || !body){ alert('Sarlavha va matn kerak'); return; }
+  const p = { id:'p'+Date.now(), title, body, answer, subject, difficulty, createdAt:nowISO() };
+  DB.problems.push(p); saveDB(DB); renderProblems();
+  el('pro-title').value=''; el('pro-body').value=''; el('pro-answer').value=''; alert('Masala qo\'shildi');
+}
+
+function renderOlympiads(){
+  DB.olympiads.forEach(o=>{ if(o.endsAt && new Date(o.endsAt).getTime() <= Date.now()){ o.status='ended'; } });
+  saveDB(DB);
+  const list = el('olymp-list'); list.innerHTML = '';
+  if(DB.olympiads.length===0) list.innerHTML = '<div class="muted">Hozircha olimpiadalar mavjud emas.</div>';
+  DB.olympiads.forEach(o=>{
+    const d = document.createElement('div'); d.className='list-item';
+    d.innerHTML = <div style="display:flex;justify-content:space-between"><div><div style="font-weight:800;color:var(--neon)">${o.title}</div><div class="muted small">Boshlash: ${o.startsAt || '—'} — Tugash: ${o.endsAt || '—'}</div></div><div style="text-align:right">${o.status==='ended'?'<span class="badge">Tugatildi</span>':'<span class="badge">Faol</span>'}<div style="margin-top:8px"><button class="link-like">Ko'rish</button></div></div></div>;
+
+Azizbek Abduraimov, [12/5/2025 7:17 PM]
+d.querySelector('button').addEventListener('click', ()=>{ alert(Olimpiada: ${o.title}\nStatus: ${o.status}\nBoshlash: ${o.startsAt}\nTugash: ${o.endsAt}); });
+    list.appendChild(d);
+  });
+}
+
+function renderSidebarUser(){
+  const box = el('sidebar-user');
+  if(!currentUser){ box.innerHTML = '<div class="muted">Ro\'yxatdan o\'tilmagan</div>'; return; }
+  box.innerHTML = <div style="display:flex;gap:10px;align-items:center"><div style="width:54px;height:54px;border-radius:10px;background:linear-gradient(135deg,var(--neon),#7c5cff);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021">${(currentUser.name||'U').slice(0,1)}</div><div><div style="font-weight:800">${currentUser.name}</div><div class="muted small">ID: ${currentUser.randomId}</div></div></div>;
+  if(!el('view-profile').classList.contains('hidden')){
+    el('pf-name').value = currentUser.name || '';
+    el('pf-phone').value = currentUser.phone || '';
+    el('pf-address').value = currentUser.address || '';
+    el('pf-email').value = currentUser.email || '';
+    el('pf-id').textContent = currentUser.randomId;
+  }
+  const key = currentUser.id;
+  const st = DB.stats[key] || { solved:0, olymps:0 };
+  el('sidebar-stats').textContent = Masalalar ishladi: ${st.solved || 0} — Olimpiadalar: ${st.olymps || 0};
+}
+
+function saveProfile(){
+  if(!currentUser){ alert('Kirish kerak'); return; }
+  currentUser.name = el('pf-name').value.trim();
+  currentUser.phone = el('pf-phone').value.trim();
+  currentUser.address = el('pf-address').value.trim();
+  currentUser.email = el('pf-email').value.trim();
+  DB.users = DB.users.map(u => u.id===currentUser.id ? currentUser : u);
+  saveDB(DB); alert('Profil saqlandi'); renderSidebarUser(); updateTopActions();
+}
+
+function openChatById(){
+  const tid = el('chat-target-id').value.trim();
+  if(!tid){ alert('ID kiritilsin'); return; }
+  const user = DB.users.find(u => u.randomId===tid || u.id===tid);
+  if(!user){ alert('Foydalanuvchi topilmadi'); return; }
+  el('chat-area').classList.remove('hidden');
+  el('chat-messages').innerHTML = '';
+  const chatKey = 'chat:'+user.randomId;
+  const messages = DB.chats[chatKey] || [];
+  messages.forEach(m=>appendChatMessage(m));
+  el('chat-area').dataset.chatKey = chatKey;
+}
+
+function appendChatMessage(m){
+  const wrap = document.createElement('div');
+  wrap.style.marginTop='8px';
+  if(m.from==='admin'){ wrap.innerHTML = <div style="text-align:right"><div style="display:inline-block;background:linear-gradient(90deg,var(--neon),#7c5cff);padding:8px 12px;border-radius:12px;color:#021">${escapeHtml(m.text)}</div><div class="muted small" style="margin-top:4px">${formatDT(m.ts)}</div></div>; }
+  else { wrap.innerHTML = <div style="text-align:left"><div style="display:inline-block;background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:12px;color:var(--text)">${escapeHtml(m.text)}</div><div class="muted small" style="margin-top:4px">${formatDT(m.ts)}</div></div>; }
+  el('chat-messages').appendChild(wrap);
+  el('chat-messages').scrollTop = el('chat-messages').scrollHeight;
+}
+
+function sendChat(){
+  const ck = el('chat-area').dataset.chatKey;
+  if(!ck){ alert('Avval chatni oching'); return; }
+  const text = el('chat-input').value.trim();
+  if(!text) return;
+  const msg = { from: (currentUser && currentUser.role==='admin')? 'admin' : (currentUser? 'user':'guest'), text, ts: new Date().toISOString() };
+  DB.chats[ck] = DB.chats[ck] || [];
+  DB.chats[ck].push(msg);
+  saveDB(DB); appendChatMessage(msg); el('chat-input').value='';
+}
+
+function userHasCourse(userId, courseId){
+  const u = DB.users.find(x=>x.id===userId); if(!u) return false; return (u.courses||[]).includes(courseId);
+}
+
+function updateTopActions(){ /* already defined earlier, kept for call */ }
+function updateAll(){ renderAll(); renderSidebarUser(); updateTopActions(); }
+
+renderAll(); renderLibrary(); renderProblems(); renderOlympiads();
+window._TH = { DB, saveDB: ()=>{ DB = loadDB(); updateAll(); }, users: ()=>DB.users, courses: ()=>DB.courses };
+
+</script>
+</body>
+</html>
